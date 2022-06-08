@@ -1,64 +1,40 @@
 pipeline {
-    agent none 
-    environment{
-        RDS_HOSTNAME = 'localhost'
-        RDS_PORT = '3000'
-        RDS_USERNAME = 'ubuntu'
-        RDS_PASSWORD = credentials('RDS_PASSWORD')
-    }
-    stages {
-        stage('terraform'){
-            steps{
-                withCredentials([
-                string(credentialsId: 'aws_access_key_id', variable: 'AWS_ACCESS_KEY_ID'),
-                string(credentialsId: 'aws_secret_access_key', variable: 'AWS_SECRET_ACCESS_KEY')
-                ]){
-                node ('master'){
-                    git 'https://github.com/nouranhamdy/terraform.git'
-                    dir("${env.WORKSPACE}/terraform/"){
-                        sh 'terraform init -reconfigure'
-                        sh 'terraform apply -var-file dev.tfvars -auto-approve'
-                        dir("${env.WORKSPACE}/scripts/"){
-                            sh '. ./jumphost.sh'
-                        }
-                     }
-                }
-                
-                
-                }
-            }
-        }
-        
-        stage('Ansible') {
-            steps {
-                node ('master'){
-                    dir("${env.WORKSPACE}/ansible-slave/"){
-                        sh 'ansible-playbook -i inventory  slave-playbook.yaml'  
-                    }
-                }
-                
-            }
-        }
+    agent {label 'aws'}
 
-        stage('deployment'){
+    stages {
+        stage('Git checkout') {
             steps {
-                node ('slave'){
-                        git branch: 'rds_redis', 
-                         url: "https://github.com/nouranhamdy/jenkins_nodejs_example.git"
-                        withCredentials([usernamePassword(credentialsId: 'docker-credentials' , usernameVariable: 'username', passwordVariable: 'password')]) {
-                            sh """
-                            docker build  -t nodeapp-rds:v1 .
-                            docker login -u ${username} -p ${password}
-                            docker image tag nodeapp:v1 nouranhamdy1998/nodeapp-rds:v1 
-                            docker image push nouranhamdy1998/nodeapp-rds:v1 
-                            docker run -p 3000:3000 -d nouranhamdy1998/nodeapp-rds:v1
-                            """
-                        }
+                git branch: 'main', url: 'https://github.com/YasserOs/Aws_Terraform_Iac' 
+            }
+        }
+        stage('terraform place') {
+            steps {
+                sh 'PATH=/usr/local/bin/terraform'
+            }
+        }
+        stage('terraform') {
+            steps {
+                withAWS(credentials: 'infra-creds', region: 'us-east-1'){
+                dir("${env.WORKSPACE}/terraform"){
+
+                    sh 'terraform init --reconfigure'
+                    sh 'terraform apply --auto-approve -var-file dev.tfvars'
+                }
+                dir("${env.WORKSPACE}/scripts"){
+
+                    sh 'chmod 777 ssh_jump.sh'
+                    sh '. ./ssh_jump.sh'
+                }
+
+           
+            }
+        }
+        stage('ansible config private-ec2') {
+            steps {
+                    dir("${env.WORKSPACE}/ansible-slave"){
+                    sh 'ansible-playbook -i inventory slave-playbook.yml'}
                 }
             }
-            
         }
-        
     }
 }
-

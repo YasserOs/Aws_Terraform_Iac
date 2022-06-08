@@ -86,7 +86,7 @@
         name: ubuntu
         group: docker
 
-    - name: copy jenkins agent file
-      copy:
-        src: /var/jenkins_home/agent.jar
-        dest: /home/ubuntu
+    # - name: copy jenkins agent file
+    #   copy:
+    #     src: /home/ubuntu/agent.jar
+    #     dest: /home/ubuntu

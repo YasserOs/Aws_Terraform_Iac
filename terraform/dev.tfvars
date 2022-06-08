@@ -1,5 +1,5 @@
 vpc_cidr_var= "192.168.0.0/16"
-region= "eu-central-1"
+region= "us-east-1"
 ami="ami-015c25ad8763b2f11"
 pub_sub1_cidr_block_var="192.168.0.0/24"
 priv_sub1_cidr_block_var="192.168.1.0/24"

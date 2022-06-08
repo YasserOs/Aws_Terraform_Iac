@@ -1,5 +1,5 @@
 #!/bin/sh
-cd /var/jenkins_home/workspace/test-terraform/
+#cd /var/jenkins_home/workspace/test-terraform/
 #if [[ -f ~/.ssh/mykey.pem ]]
 #then
 #    rm ~/.ssh/mykey.pem
