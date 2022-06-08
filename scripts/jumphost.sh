@@ -23,6 +23,7 @@ host bastion
    User ubuntu
    identityFile ~/.ssh/mykey.pem
    AddKeysToAgent yes
+   IdentitiesOnly yes
    StrictHostKeyChecking=no
 
 host private_instance
