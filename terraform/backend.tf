@@ -1,7 +1,7 @@
 terraform {
 backend "s3" {
-bucket = "aws-jenkins-terraform-bucket"
+bucket = "aws-jenkins-terraform-bucket-y"
 key = "default/terraform.tfstate"
-region = "eu-central-1"
+region = "us-east-1"
 }
 }
