@@ -33,7 +33,7 @@ pipeline {
         stage('ansible config private-ec2') {
             steps {
                     dir("${env.WORKSPACE}/ansible-slave"){
-                    sh 'ansible-playbook -i inventory slave-playbook.yml'
+                    sh 'ansible-playbook -i inventory slave-playbook.yaml'
                     }
                 }
             }
