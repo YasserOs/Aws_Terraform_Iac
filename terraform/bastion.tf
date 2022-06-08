@@ -1,4 +1,4 @@
-data "aws_ami" "ubuntu" {
+data "aws_ami" "ubuntu2" {
   most_recent = true
 
   filter {
@@ -15,7 +15,7 @@ data "aws_ami" "ubuntu" {
 }
 
 resource "aws_instance" "bastion" {
-  ami = data.aws_ami.ubuntu.id #ubuntu
+  ami = data.aws_ami.ubuntu2.id #ubuntu
   instance_type = "t2.micro"
   key_name = aws_key_pair.public_key.key_name
   provisioner "local-exec" {

@@ -22,8 +22,8 @@ pipeline {
                 }
                 dir("${env.WORKSPACE}/scripts"){
 
-                    sh 'chmod 777 ssh_jump.sh'
-                    sh '. ./ssh_jump.sh'
+                    sh 'chmod 777 jumphost.sh'
+                    sh '. ./jumphost.sh'
                 }
 
             

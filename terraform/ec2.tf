@@ -1,4 +1,4 @@
-data "aws_ami" "ubuntu" {
+data "aws_ami" "ubuntu1" {
   most_recent = true
 
   filter {
@@ -14,7 +14,7 @@ data "aws_ami" "ubuntu" {
   owners = ["099720109477"] # Canonical
 }
 resource "aws_instance" "ec2" {
-  ami = data.aws_ami.ubuntu.id #ubuntu
+  ami = data.aws_ami.ubuntu1.id #ubuntu
   instance_type = "t2.micro"
   key_name = aws_key_pair.public_key.key_name
 
