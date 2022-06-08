@@ -14,7 +14,7 @@ pipeline {
         }
         stage('terraform') {
             steps {
-                withAWS(credentials: 'infra-creds', region: 'us-east-1'){
+                withAWS(credentials: 'Infra-creds', region: 'us-east-1'){
                 dir("${env.WORKSPACE}/terraform"){
 
                     sh 'terraform init --reconfigure'
