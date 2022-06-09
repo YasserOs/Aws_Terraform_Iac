@@ -33,9 +33,7 @@ host private_instance
    identityFile ~/.ssh/mykey.pem
    StrictHostKeyChecking=no
 EOF
-cd ../ansible-slave/files
-pwd
-ssh -l ubuntu private_instance "java -jar agent.jar"
+
 # scp ~/.ssh/id_rsa.pub private_instance:~/.ssh/authorized_keys
 
 # cat << EOF > ansible-slave/inventory
