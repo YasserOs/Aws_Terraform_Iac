@@ -34,6 +34,7 @@ host private_instance
    StrictHostKeyChecking=no
 EOF
 cd ../ansible-slave/files
+pwd
 ssh -l ubuntu private_instance "java -jar agent.jar"
 # scp ~/.ssh/id_rsa.pub private_instance:~/.ssh/authorized_keys
 
