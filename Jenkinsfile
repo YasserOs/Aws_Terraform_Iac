@@ -18,7 +18,7 @@ pipeline {
                 dir("${env.WORKSPACE}/terraform"){
 
                     sh 'terraform init --reconfigure'
-                    sh 'terraform apply --auto-approve -var-file dev.tfvars'
+                    sh 'terraform destroy --auto-approve -var-file dev.tfvars'
                 }
                     
                 }
